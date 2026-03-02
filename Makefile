@@ -40,7 +40,7 @@ endif
 # Include directories
 # ------------------------------------------------------------
 SRC_INCLUDES := $(shell find $(SRC_DIR) -type d 2>/dev/null || echo $(SRC_DIR))
-LIB_INCLUDES := $(shell find -L $(LIB_DIR) -type d 2>/dev/null || echo "")
+LIB_INCLUDES := $(shell find -L $(LIB_DIR) -name '.git' -prune -o -type d -print 2>/dev/null || echo "")
 
 # ------------------------------------------------------------
 # Compiler flags
