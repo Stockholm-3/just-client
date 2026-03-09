@@ -275,7 +275,7 @@ json_t* weather_client_echo(WeatherClient* client, char** error) {
 
 // skapa energi-plan för clienten
 json_t* weather_client_get_plan(WeatherClient* client, const char* city,
-                                 const char* price, char** error) {
+                                const char* price, char** error) {
     if (!client) {
         if (error) {
             *error = strdup("Invalid client");
