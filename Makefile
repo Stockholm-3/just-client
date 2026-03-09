@@ -55,7 +55,7 @@ CFLAGS_LIB := $(CFLAGS_BASE) -w $(INCLUDES)
 JANSSON_CFLAGS := $(filter-out -Werror -Wfatal-errors,$(CFLAGS_SRC)) -w -Ilib/jansson
 
 LDFLAGS :=
-LIBS    := -ljansson
+LIBS    := 
 
 # ------------------------------------------------------------
 # Source and object files
