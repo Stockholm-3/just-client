@@ -345,7 +345,7 @@ void weather_client_clear_cache(WeatherClient* client);
  * @return JSON object on success, NULL on failure.
  *         Caller must call json_decref() when done.
  */
-json_t* weather_client_get_plane(WeatherClient* client, const char* city,
+json_t* weather_client_get_plan(WeatherClient* client, const char* city,
                                  const char* price, char** error);
 /**
  * @brief Sets the network timeout for API requests

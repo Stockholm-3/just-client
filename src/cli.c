@@ -186,7 +186,7 @@ int cli_execute_command(WeatherClient* client, int argc, char* argv[]) {
             fprintf(stderr, "Price must be SE1, SE2, SE3 or SE4\n");
             return EXIT_INVALID_ARGS;
         }
-        result = weather_client_get_plane(client, argv[2], argv[3], &error);
+        result = weather_client_get_plan(client, argv[2], argv[3], &error);
 
     } else if (strcmp(command, "clear-cache") == 0) {
         weather_client_clear_cache(client);
@@ -304,7 +304,7 @@ static void process_command(WeatherClient* client, char* line) {
             printf("Error: Usage: getplane <city> <price>  (price: SE1-SE4)\n");
             return;
         }
-        result = weather_client_get_plane(client, city, price, &error);
+        result = weather_client_get_plan(client, city, price, &error);
 
     } else if (strcmp(cmd, "clear-cache") == 0) {
         weather_client_clear_cache(client);

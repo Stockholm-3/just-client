@@ -274,7 +274,7 @@ json_t* weather_client_echo(WeatherClient* client, char** error) {
 }
 
 // skapa energi-plan för clienten
-json_t* weather_client_get_plane(WeatherClient* client, const char* city,
+json_t* weather_client_get_plan(WeatherClient* client, const char* city,
                                  const char* price, char** error) {
     if (!client) {
         if (error) {
