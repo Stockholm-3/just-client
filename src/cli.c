@@ -25,8 +25,10 @@ static int  parse_double(const char* str, double* out);
 static void process_command(WeatherClient* client, char* line);
 
 void cli_print_usage(const char* prog_name) {
-    printf("Just Weather Client\n\n");
-    printf("Usage:\n");
+    printf("\n--==> Just Weather Client <==--\n\n");
+
+    printf("==================================================\n");
+    printf("Usage:\n\n");
     printf("  %s current <lat> <lon>\n", prog_name);
     printf("  %s weather <city> [country] [region]\n", prog_name);
     printf("  %s cities <query>\n", prog_name);
@@ -36,11 +38,15 @@ void cli_print_usage(const char* prog_name) {
            prog_name);
     printf("  %s clear-cache\n", prog_name);
     printf("  %s interactive    # Enter interactive mode\n", prog_name);
-    printf("\nExamples:\n");
+    printf("==================================================\n\n");
+
+    printf("==================================================\n");
+    printf("Examples:\n\n");
     printf("  %s current 59.33 18.07\n", prog_name);
     printf("  %s weather Stockholm SE\n", prog_name);
     printf("  %s cities Stock\n", prog_name);
     printf("  %s interactive\n", prog_name);
+    printf("==================================================\n");
 }
 
 void cli_interactive_mode() {
