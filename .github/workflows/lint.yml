@@ -15,13 +15,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with: 
+          submodules: recursive 
+          fetch-depth: 0
 
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential libcurl4-openssl-dev bear
-          #install jansson from source
-          make install-lib
 
       - name: Generate compile_commands.json
         run: |
