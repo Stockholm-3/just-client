@@ -273,6 +273,56 @@ json_t* weather_client_echo(WeatherClient* client, char** error) {
     return result;
 }
 
+// skapa energi-plan för clienten
+json_t* weather_client_get_plan(WeatherClient* client, const char* city,
+                                const char* price, char** error) {
+    if (!client) {
+        if (error) {
+            *error = strdup("Invalid client");
+        }
+        return NULL;
+    }
+
+    if (!city || !price) {
+        if (error) {
+            *error = strdup("city and price are required");
+        }
+        return NULL;
+    }
+
+    /* URL-encode city and price so that special characters (spaces, etc.)
+     * are valid in a URL, e.g. "My City" -> "My%20City" */
+    char* city_encoded  = url_encode(city);
+    char* price_encoded = url_encode(price);
+
+    /* If either encoding failed (e.g. out of memory), free both and return
+     * an error. free(NULL) is safe if one of them is NULL. */
+    if (!city_encoded || !price_encoded) {
+        free(city_encoded);
+        free(price_encoded);
+        if (error) {
+            *error = strdup("Failed to encode parameters");
+        }
+        return NULL;
+    }
+
+    char url[512];
+    snprintf(url, sizeof(url), "http://%s:%d/v1/get_plan?city=%s&price=%s",
+             client->server_host, client->server_port, city_encoded,
+             price_encoded);
+
+    char params[512];
+    snprintf(params, sizeof(params), "city=%s:price=%s", city, price);
+    char* cache_key = build_cache_key("get_plan", params);
+
+    json_t* result = make_request(client, url, cache_key, error);
+
+    free(city_encoded);
+    free(price_encoded);
+    free(cache_key);
+    return result;
+}
+
 void weather_client_clear_cache(WeatherClient* client) {
     if (client && client->cache) {
         client_cache_clear(client->cache);

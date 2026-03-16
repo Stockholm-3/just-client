@@ -330,6 +330,23 @@ json_t* weather_client_echo(WeatherClient* client, char** error);
  */
 
 void weather_client_clear_cache(WeatherClient* client);
+
+/**
+ * @brief Gets energy plan data for a city from the server
+ *
+ * Fetches energy plan data from the /v1/get_plan endpoint.
+ * Requires a Swedish city name and a price zone (SE1–SE4).
+ *
+ * @param client Pointer to the WeatherClient structure
+ * @param city   City name (e.g. "Stockholm")
+ * @param price  Price zone: SE1, SE2, SE3 or SE4
+ * @param error  Optional pointer to store error message. Caller must free.
+ *
+ * @return JSON object on success, NULL on failure.
+ *         Caller must call json_decref() when done.
+ */
+json_t* weather_client_get_plan(WeatherClient* client, const char* city,
+                                const char* price, char** error);
 /**
  * @brief Sets the network timeout for API requests
  *
