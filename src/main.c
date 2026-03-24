@@ -1,5 +1,6 @@
 #include "api/weather_client.h"
 #include "cli.h"
+#include "tui/tui.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,7 +24,17 @@ int main(int argc, char* argv[]) {
     const char* command   = argv[1];
     int         exit_code = 0;
 
-    if (strcmp(command, "interactive") == 0 || strcmp(command, "-i") == 0) {
+    if (strcmp(command, "tui") == 0 || strcmp(command, "-t") == 0) {
+        TuiContext* tui = tui_create(client);
+        if (!tui) {
+            fprintf(stderr, "Failed to initialize TUI\n");
+            weather_client_destroy(client);
+            return EXIT_NETWORK_ERROR;
+        }
+        tui_run(tui);
+        tui_destroy(tui);
+    } else if (strcmp(command, "interactive") == 0 ||
+               strcmp(command, "-i") == 0) {
         cli_interactive_mode();
     } else {
         exit_code = cli_execute_command(client, argc, argv);

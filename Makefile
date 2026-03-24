@@ -55,7 +55,7 @@ CFLAGS_LIB := $(CFLAGS_BASE) -w $(INCLUDES)
 JANSSON_CFLAGS := $(filter-out -Werror -Wfatal-errors,$(CFLAGS_SRC)) -w -Ilib/jansson
 
 LDFLAGS :=
-LIBS    := 
+LIBS    := -lncurses
 
 # ------------------------------------------------------------
 # Source and object files
@@ -103,7 +103,7 @@ help:
 	@echo "  make test-homepage   Test homepage endpoint"
 	@echo "  make test-echo       Test echo endpoint"
 	@echo "  make test-all        Run all tests in sequence"
-	@echo "  make interactive     Launch interactive mode"
+	@echo "  make cli             Launch interactive mode"
 	@echo "  make demo            Interactive demo of features"
 	@echo ""
 	@echo "CACHE:"
@@ -212,9 +212,13 @@ test-echo: $(BIN)
 	@./$(BIN) echo
 
 # Interactive mode
-.PHONY: interactive
-interactive: $(BIN)
+.PHONY: cli
+cli: $(BIN)
 	@./$(BIN) interactive
+
+.PHONY: tui
+tui: $(BIN)
+	@./$(BIN) tui
 
 # Clear cache
 .PHONY: clear-cache

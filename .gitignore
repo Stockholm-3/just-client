@@ -12,6 +12,7 @@ just-weather-client
 
 # Cache
 src/cache/*.json
+src/config/saved-cities.json
 .cache/
 compile_commands.json
 
