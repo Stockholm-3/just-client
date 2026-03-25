@@ -370,4 +370,15 @@ json_t* weather_client_get_plan(WeatherClient* client, const char* city,
  */
 void weather_client_set_timeout(WeatherClient* client, int timeout_ms);
 
+/**
+ * @brief Updates the server address and port, clearing the cache.
+ * @param client Pointer to WeatherClient (safe to pass NULL)
+ * @param host   New hostname or IP; NULL resets to "localhost"
+ * @param port   New port; <= 0 resets to 10680
+ */
+void        weather_client_set_server(WeatherClient* client, const char* host,
+                                      int port);
+const char* weather_client_get_host(const WeatherClient* client);
+int         weather_client_get_port(const WeatherClient* client);
+
 #endif

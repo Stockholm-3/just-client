@@ -34,12 +34,13 @@ static int utf8_extra_bytes(const char* s) {
     int extra = 0;
     while (*s) {
         unsigned char c = (unsigned char)*s;
-        if (c >= 0xF0)
+        if (c >= 0xF0) {
             extra += 3;
-        else if (c >= 0xE0)
+        } else if (c >= 0xE0) {
             extra += 2;
-        else if (c >= 0xC0)
+        } else if (c >= 0xC0) {
             extra += 1;
+        }
         s++;
     }
     return extra;
@@ -61,6 +62,7 @@ void cli_print_usage(const char* prog_name) {
            prog_name);
     printf("  %s clear-cache\n", prog_name);
     printf("  %s interactive    # Enter interactive mode\n", prog_name);
+    printf("  %s tui            # Enter TUI mode (ncurses)\n", prog_name);
     printf("==================================================\n\n");
 
     printf("==================================================\n");
@@ -91,8 +93,9 @@ void cli_interactive_mode() {
     }
     {
         int ch;
-        while ((ch = getchar()) != '\n' && ch != EOF)
+        while ((ch = getchar()) != '\n' && ch != EOF) {
             ;
+        }
     }
     WeatherClient* client = weather_client_create(server_address, server_port);
     if (!client) {
@@ -332,8 +335,9 @@ static void print_plan_table(json_t* data) {
         json_t* slot = json_array_get(decisions_j, i);
         json_t* inv  = json_object_get(slot, "input_variables");
         json_t* out  = json_object_get(slot, "output");
-        if (!inv || !out)
+        if (!inv || !out) {
             continue;
+        }
 
         printf(
             "%3zu | %10.3f | %8.2f | %6.2f | %7.3f | %7.3f | %7.3f | %7.3f\n",

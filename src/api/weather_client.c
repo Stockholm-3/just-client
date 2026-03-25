@@ -238,9 +238,21 @@ json_t* weather_client_get_homepage(WeatherClient* client, char** error) {
     snprintf(url, sizeof(url), "http://%s:%d/", client->server_host,
              client->server_port);
 
-    char* cache_key = build_cache_key("homepage", "");
+    if (http_client_get(client->http, url, error) != 0) {
+        return NULL;
+    }
 
-    return make_request(client, url, cache_key, error);
+    const char* body = http_client_get_body(client->http);
+    if (!body) {
+        if (error) {
+            *error = strdup("Empty response");
+        }
+        return NULL;
+    }
+
+    json_t* result = json_object();
+    json_object_set_new(result, "content", json_string(body));
+    return result;
 }
 
 json_t* weather_client_echo(WeatherClient* client, char** error) {
@@ -333,6 +345,25 @@ void weather_client_set_timeout(WeatherClient* client, int timeout_ms) {
     if (client) {
         client->timeout_ms = timeout_ms;
     }
+}
+
+void weather_client_set_server(WeatherClient* client, const char* host,
+                               int port) {
+    if (!client) {
+        return;
+    }
+    strncpy(client->server_host, host ? host : "localhost", 255);
+    client->server_host[255] = '\0';
+    client->server_port      = port > 0 ? port : 10680;
+    client_cache_clear(client->cache);
+}
+
+const char* weather_client_get_host(const WeatherClient* client) {
+    return client ? client->server_host : "localhost";
+}
+
+int weather_client_get_port(const WeatherClient* client) {
+    return client ? client->server_port : 10680;
 }
 
 static char* build_cache_key(const char* endpoint, const char* params) {
